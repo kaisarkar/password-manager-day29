@@ -31,4 +31,3 @@ def generate_random_password(length=12):
     if password not in generated_passwords:
       generated_passwords.add(password)  # Add to the set to prevent repetition
       return password
-
