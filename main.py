@@ -1,6 +1,7 @@
 from tkinter import *
 from passwordGenerator import *
 from tkinter import messagebox
+import pyperclip
 BG_COLOUR = "White"
 
 
@@ -9,7 +10,9 @@ BG_COLOUR = "White"
 
 def show_password():
     password_input.delete(0, END)
-    password_input.insert(0, generate_random_password())
+    new_password = generate_random_password()
+    password_input.insert(0, new_password)
+    pyperclip.copy(new_password)
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def save_data():
