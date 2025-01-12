@@ -1,5 +1,6 @@
 from tkinter import *
 from passwordGenerator import *
+from tkinter import messagebox
 BG_COLOUR = "White"
 
 
@@ -15,12 +16,18 @@ def save_data():
     get_website = web_input.get()
     get_email = email_input.get()
     get_password = password_input.get()
-    with open("data.txt", "a") as file:
-        file.write(f"{get_website} | {get_email} | {get_password}\n")
-        web_input.delete(0, END)
-        email_input.delete(0, END)
-        password_input.delete(0, END)
 
+    is_ok = messagebox.askokcancel(title=get_website, message=f"These are the details: \nEmail: {get_email} \nPassword: {get_password} \nIs that OK?")
+
+    if is_ok:
+        if len(get_email) == 0 or len(get_password) == 0 or len(get_website) == 0:
+            messagebox.showerror(title="Error", message="Please fill all the fields")
+        else:
+            with open("data.txt", "a") as file:
+                file.write(f"{get_website} | {get_email} | {get_password}\n")
+                web_input.delete(0, END)
+                email_input.delete(0, END)
+                password_input.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
