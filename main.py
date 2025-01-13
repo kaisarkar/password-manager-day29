@@ -28,17 +28,29 @@ def save_data():
         }
     }
 
-
     if len(get_email) == 0 or len(get_password) == 0 or len(get_website) == 0:
         messagebox.showerror(title="Error", message="Please fill all the fields")
     else:
         is_ok = messagebox.askokcancel(title=get_website,
                                            message=f"These are the details: \nEmail: {get_email} \nPassword: {get_password} \nIs that OK?")
         if is_ok:
-            with open("data.json", "w") as data_file:
-                json.dump(new_data, data_file, indent=4)
-                web_input.delete(0, END)
-                password_input.delete(0, END)
+            # Exception handling in the event of error / file is empty
+            try:
+                with open("data.json", "r") as data_file:
+                    data = json.load(data_file)
+                    data.update(new_data)
+            except (FileNotFoundError ,json.decoder.JSONDecodeError): # if file empty - create a file and dump the data
+                with open("data.json", "w") as data_file:
+                    json.dump(new_data, data_file, indent=4)
+                    remove_data_from_GUI()
+            else:
+                with open("data.json", "w") as data_file:
+                    json.dump(data, data_file, indent=4)
+                    remove_data_from_GUI()
+
+def remove_data_from_GUI():
+    web_input.delete(0, END)
+    password_input.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
