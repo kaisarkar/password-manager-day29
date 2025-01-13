@@ -21,6 +21,13 @@ def save_data():
     get_email = email_input.get()
     get_password = password_input.get()
 
+    new_data = {
+        get_website:{
+            "email": get_email,
+            "password": get_password,
+        }
+    }
+
 
     if len(get_email) == 0 or len(get_password) == 0 or len(get_website) == 0:
         messagebox.showerror(title="Error", message="Please fill all the fields")
@@ -28,10 +35,9 @@ def save_data():
         is_ok = messagebox.askokcancel(title=get_website,
                                            message=f"These are the details: \nEmail: {get_email} \nPassword: {get_password} \nIs that OK?")
         if is_ok:
-            with open("data.txt", "a") as file:
-                file.write(f"{get_website} | {get_email} | {get_password}\n")
+            with open("data.json", "w") as data_file:
+                json.dump(new_data, data_file, indent=4)
                 web_input.delete(0, END)
-                email_input.delete(0, END)
                 password_input.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
