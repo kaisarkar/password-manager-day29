@@ -42,15 +42,12 @@ def save_data():
             except (FileNotFoundError ,json.decoder.JSONDecodeError): # if file empty - create a file and dump the data
                 with open("data.json", "w") as data_file:
                     json.dump(new_data, data_file, indent=4)
-                    remove_data_from_GUI()
             else:
                 with open("data.json", "w") as data_file:
                     json.dump(data, data_file, indent=4)
-                    remove_data_from_GUI()
-
-def remove_data_from_GUI():
-    web_input.delete(0, END)
-    password_input.delete(0, END)
+            finally:
+                web_input.delete(0, END)
+                password_input.delete(0, END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
