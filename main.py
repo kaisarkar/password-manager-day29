@@ -1,8 +1,9 @@
 from tkinter import *
-from passwordGenerator import *
+from passwordGenerator import PasswordGenerator
 from tkinter import messagebox
 import pyperclip
 import json
+from search import *
 BG_COLOUR = "White"
 
 
@@ -11,13 +12,14 @@ BG_COLOUR = "White"
 
 def show_password():
     password_input.delete(0, END)
-    new_password = generate_random_password()
+    password_obj = PasswordGenerator() # Don't need to use this as class but I just wanted to see how to convert it to a class
+    new_password = password_obj.generate_random_password()
     password_input.insert(0, new_password)
     pyperclip.copy(new_password)
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 def save_data():
-    get_website = web_input.get()
+    get_website = web_input.get().lower()
     get_email = email_input.get()
     get_password = password_input.get()
 
@@ -49,6 +51,17 @@ def save_data():
                 web_input.delete(0, END)
                 password_input.delete(0, END)
 
+#search data in the file
+
+def search():
+    try:
+        with open("data.json", "r") as data_file:
+            data = json.load(data_file)
+            messagebox.showinfo(title=web_input.get(), message=f"{search_data(data, key=web_input.get().lower())}")
+    except (FileNotFoundError, json.decoder.JSONDecodeError):
+        messagebox.showerror(title="Error", message="can't find data file or the data file is empty")
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Manager")
@@ -62,8 +75,11 @@ canvas.grid(column=1, row=0)
 
 web_name = Label(text="Website: ", fg="black", bg=BG_COLOUR)
 web_name.grid(column=0, row=1)
-web_input = Entry(width=35, bg=BG_COLOUR)
-web_input.grid(column=1, row=1, columnspan=2)
+web_input = Entry(width=25, bg=BG_COLOUR)
+web_input.grid(column=1, row=1)
+
+search_btn = Button(text="Search", command=search)
+search_btn.grid(column=2, row=1, padx=5)
 
 email = Label(text="Email/ Username: ", fg="black", bg=BG_COLOUR)
 email.grid(column=0, row=2)
