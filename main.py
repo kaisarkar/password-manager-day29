@@ -75,10 +75,10 @@ canvas.grid(column=1, row=0)
 
 web_name = Label(text="Website: ", fg="black", bg=BG_COLOUR)
 web_name.grid(column=0, row=1)
-web_input = Entry(width=25, bg=BG_COLOUR)
+web_input = Entry(width=17, bg=BG_COLOUR)
 web_input.grid(column=1, row=1)
 
-search_btn = Button(text="Search", command=search)
+search_btn = Button(text="Search", command=search, width=13, bg=BG_COLOUR)
 search_btn.grid(column=2, row=1, padx=5)
 
 email = Label(text="Email/ Username: ", fg="black", bg=BG_COLOUR)
